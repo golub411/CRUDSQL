@@ -1,4 +1,4 @@
-package CrudSql
+package crudsql
 
 import (
 	"database/sql"
