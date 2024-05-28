@@ -1,12 +1,12 @@
-# CRUD-SQL
+# CRUD-SQL ⭐
 
-The best instrument for your professional REST-ful-api on golang
-
-
+## ♦ 🔥 The best instrument for your professional REST-ful-api on golang
 
 
 
-package main
+
+
+```package main
 
 import (
 	"fmt"
@@ -50,7 +50,7 @@ func main() {
 	where := map[string]interface{}{"id": 1}
 	if err := db.UpdateValue("your_table", set, where); err != nil {
 		log.Fatal(err)
-	}
+	} ```
 
 	// Удаляем значение
 	if err := db.DeleteValue("your_table", where); err != nil {
