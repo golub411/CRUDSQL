@@ -84,6 +84,48 @@ func (d *Database) SelectValue(tableName string, columns []string) ([]map[string
 	return results, nil
 }
 
+//Select value with where operator
+
+func (d *Database) SelectValueWhere(tableName string, columns []string, where string) ([]map[string]interface{}, error) {
+	query := fmt.Sprintf("SELECT %s FROM %s WHERE %s", strings.Join(columns, ", "), tableName, where)
+	rows, err := d.db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	results := make([]map[string]interface{}, 0)
+	for rows.Next() {
+		values := make([]interface{}, len(columns))
+		valuePtrs := make([]interface{}, len(columns))
+		for i := range columns {
+			valuePtrs[i] = &values[i]
+		}
+
+		if err := rows.Scan(valuePtrs...); err != nil {
+			return nil, err
+		}
+
+		result := make(map[string]interface{})
+		for i, col := range columns {
+			val := values[i]
+			b, ok := val.([]byte)
+			if ok {
+				result[col] = string(b)
+			} else {
+				result[col] = val
+			}
+		}
+		results = append(results, result)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return results, nil
+}
+
 // UpdateValue updates rows in a table.
 func (d *Database) UpdateValue(tableName string, set map[string]interface{}, where map[string]interface{}) error {
 	setClause := make([]string, 0, len(set))
