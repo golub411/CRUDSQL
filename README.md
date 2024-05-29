@@ -2,6 +2,7 @@
 
 ## ♦ 🔥 The best instrument for your professional REST-ful-api on golang
 
+##👌You can this with services and controllers, but I made in main.go for example
 
 
 
